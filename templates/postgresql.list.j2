@@ -1,5 +1,5 @@
 {% if ansible_distribution_major_version == '11' %}
 deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main
 {% elif ansible_distribution_major_version == '10' %}
-deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
+deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
 {% endif %}
