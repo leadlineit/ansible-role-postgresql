@@ -1,0 +1,34 @@
+---
+- name: Update repo cache and install a few prerequisite packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+    update_cache: true
+
+- name: Add official PostgreSQL Server package authentication key
+  apt_key:
+    id: 7FCC7D46ACCC4CF8
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    keyring: /usr/share/keyrings/postgresql-keyring.gpg
+
+- name: Add the PostgreSQL Server repository to APT sources
+  template:
+    src: postgresql.list.j2
+    dest: /etc/apt/sources.list.d/postgresql.list
+    mode: '0644'
+
+- name: Install/Update PostgreSQL Server
+  apt:
+    update_cache: true
+    name: postgresql
+    state: present
+
+- name: Start and enable PostgreSQL Server
+  service:
+    name: postgresql
+    state: started
+    enabled: true

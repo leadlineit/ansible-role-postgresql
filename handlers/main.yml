@@ -1,0 +1,12 @@
+---
+# handlers file for leadlineit.postgresql
+
+- name: enable postgresql service
+  service:
+    name: postgresql
+    enabled: true
+
+- name: restart postgresql service
+  service:
+    name: postgresql
+    state: restarted
