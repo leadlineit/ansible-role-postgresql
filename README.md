@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/leadlineit/ansible-role-postgresql/actions/workflows/ansible-galaxy-ci.yml/badge.svg)
 
-[![role](https://img.shields.io/badge/Galaxy-tjtoml.postgresql-5bbdbf.svg)](https://galaxy.ansible.com/tjtoml/postgresql/)
+[![role](https://img.shields.io/badge/Galaxy-leadlineit.postgresql-48C9B0.svg)](https://galaxy.ansible.com/leadlineit/postgresql/)
 
 This role helps to install and configure PostgreSQL Server 14 to Debian (buster/bullseye).
 
