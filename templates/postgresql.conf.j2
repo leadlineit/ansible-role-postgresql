@@ -41,7 +41,7 @@
 # option or PGDATA environment variable, represented here as ConfigDir.
 
 {% if pgsql_data_dir is defined %}
-data_directory = {{ pgsql_data_dir }}
+data_directory = '{{ pgsql_data_dir }}'
 {% else %}
 data_directory = '/var/lib/postgresql/14/main'
 {% endif %}
