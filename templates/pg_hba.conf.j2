@@ -11,19 +11,26 @@ local   all             postgres                                peer
 # "local" is for Unix domain socket connections only
 {% if pgsql_auth_method is defined %}
 local   all             all                                     {{ pgsql_auth_method }}
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            {{ pgsql_auth_method }}
+# IPv6 local connections:
+host    all             all             ::1/128                 {{ pgsql_auth_method }}
 {% else %}
 local   all             all                                     peer
-{% endif %}
 # IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
+host    all             all             127.0.0.1/32            peer
 # IPv6 local connections:
-host    all             all             ::1/128                 md5
+host    all             all             ::1/128                 peer
+{% endif %}
+
 # Allow replication connections from localhost, by a user with the
 # replication privilege.
 {% if pgsql_auth_method is defined %}
 local   replication     all                                     {{ pgsql_auth_method }}
+host    replication     all             127.0.0.1/32            {{ pgsql_auth_method }}
+host    replication     all             ::1/128                 {{ pgsql_auth_method }}
 {% else %}
 local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            peer
+host    replication     all             ::1/128                 peer
 {% endif %}
-host    replication     all             127.0.0.1/32            md5
-host    replication     all             ::1/128                 md5
