@@ -23,7 +23,7 @@
 - name: Install/Update PostgreSQL Server
   apt:
     update_cache: true
-    name: postgresql
+    name: postgresql-14
     state: present
 
 - name: Start and enable PostgreSQL Server
