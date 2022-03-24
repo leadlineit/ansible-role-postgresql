@@ -1,4 +1,4 @@
-# Ansible Managed
+#{{ ansible_managed }}
 # -----------------------------
 # PostgreSQL configuration file
 # -----------------------------
@@ -42,17 +42,12 @@
 
 {% if pgsql_data_dir is defined %}
 data_directory = '{{ pgsql_data_dir }}'
-
-hba_file = '{{ pgsql_data_dir }}/pg_hba.conf'
-
-ident_file = '{{ pgsql_data_dir }}/pg_ident.conf'
 {% else %}
 data_directory = '/var/lib/postgresql/14/main'
-
+{% endif %}
 hba_file = '/etc/postgresql/14/main/pg_hba.conf'
 
 ident_file = '/etc/postgresql/14/main/pg_ident.conf'
-{% endif %}
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
 
@@ -67,7 +62,7 @@ external_pid_file = '/var/run/postgresql/14-main.pid'
 {% if pgsql_listen_addresses is defined %}
 listen_addresses = '{{ pgsql_listen_addresses }}'
 {% else %}
-#listen_addresses = 'localhost'
+listen_addresses = 'localhost'
 {% endif %}
 
 {% if pgsql_listen_port is defined %}
@@ -721,11 +716,18 @@ timezone = 'Europe/Kiev'
 					# encoding
 
 # These settings are initialized by initdb, but they can be changed.
-lc_messages = 'en_US.UTF-8'			# locale for system error message
-					# strings
-lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
-lc_numeric = 'en_US.UTF-8'			# locale for number formatting
-lc_time = 'en_US.UTF-8'				# locale for time formatting
+
+{% if pgsql_locales is defined %}
+lc_messages = '{{ pgsql_locales }}'
+lc_monetary = '{{ pgsql_locales }}'
+lc_numeric = '{{ pgsql_locales }}'
+lc_time = '{{ pgsql_locales }}'
+{% else %}
+lc_messages = 'en_US.UTF-8'
+lc_monetary = 'en_US.UTF-8'
+lc_numeric = 'en_US.UTF-8'
+lc_time = 'en_US.UTF-8'
+{% endif %}
 
 # default configuration for text search
 default_text_search_config = 'pg_catalog.english'

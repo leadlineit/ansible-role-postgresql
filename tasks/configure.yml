@@ -1,9 +1,11 @@
 ---
 - name: Adds Python PostgreSQL support
   apt:
-    name:
-      - python3-psycopg2
+    name: "{{ item }}"
     state: present
+    update_cache: true
+  with_items:
+      - python3-psycopg2
 
 - name: Copy postgresql.conf config file
   template:
@@ -12,6 +14,16 @@
     mode: '644'
   notify:
     - restart postgresql service
+
+- name: Set postgres password
+  no_log: true
+  become: true
+  become_method: sudo
+  become_user: postgres
+  postgresql_user:
+    db: postgres
+    name: postgres
+    password: "{{ pgsql_root_password | mandatory }}"
 
 - name: Copy pg_hba.conf config file
   template:
