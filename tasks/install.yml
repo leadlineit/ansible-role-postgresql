@@ -10,15 +10,17 @@
 
 - name: Add official PostgreSQL Server package authentication key
   apt_key:
-    id: 7FCC7D46ACCC4CF8
-    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    keyring: /usr/share/keyrings/postgresql-keyring.gpg
+    data: "{{ lookup('file', 'postgresql_pubkey.asc') }}"
+    state: present
 
 - name: Add the PostgreSQL Server repository to APT sources
-  template:
-    src: postgresql.list.j2
-    dest: /etc/apt/sources.list.d/postgresql.list
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: postgresql
     mode: '0644'
+  with_items:
+    - "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
 
 - name: Install/Update PostgreSQL Server
   apt:

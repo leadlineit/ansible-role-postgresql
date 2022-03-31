@@ -1,5 +1,5 @@
 ---
-- name: Adds Python PostgreSQL support
+- name: Add Python PostgreSQL support
   apt:
     name: "{{ item }}"
     state: present
@@ -15,7 +15,21 @@
   notify:
     - restart postgresql service
 
-- name: Set postgres password
+- name: Enable packages gather facts
+  package_facts:
+    manager: auto
+
+# - name: Install sudo packages if it not installed
+#   when: "'sudo' not in ansible_facts.packages"
+#   apt:
+#     name: "{{ item }}"
+#     state: present
+#     update_cache: true
+#   with_items:
+#     - sudo
+
+- name: Set postgres password with sudo packages (skip if sudo isn't installed)
+  when: "'sudo' in ansible_facts.packages"
   no_log: true
   become: true
   become_method: sudo
@@ -24,7 +38,7 @@
     db: postgres
     name: postgres
     password: "{{ pgsql_root_password | mandatory }}"
-
+  
 - name: Copy pg_hba.conf config file
   template:
     src: pg_hba.conf.j2

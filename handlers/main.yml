@@ -1,6 +1,4 @@
 ---
-# handlers file for leadlineit.postgresql
-
 - name: enable postgresql service
   service:
     name: postgresql
