@@ -1,6 +1,6 @@
 ---
 - name: Add Python PostgreSQL support
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
@@ -8,7 +8,7 @@
       - python3-psycopg2
 
 - name: Copy postgresql.conf config file
-  template:
+  ansible.builtin.template:
     src: postgresql.conf.j2
     dest: /etc/postgresql/14/main/postgresql.conf
     mode: '644'
@@ -16,31 +16,22 @@
     - restart postgresql service
 
 - name: Enable packages gather facts
-  package_facts:
+  ansible.builtin.package_facts:
     manager: auto
 
-# - name: Install sudo packages if it not installed
-#   when: "'sudo' not in ansible_facts.packages"
-#   apt:
-#     name: "{{ item }}"
-#     state: present
-#     update_cache: true
-#   with_items:
-#     - sudo
-
 - name: Set postgres password with sudo packages (skip if sudo isn't installed)
-  when: "'sudo' in ansible_facts.packages"
   no_log: true
   become: true
   become_method: sudo
   become_user: postgres
-  postgresql_user:
+  community.postgresql.postgresql_user:
     db: postgres
     name: postgres
     password: "{{ pgsql_root_password | mandatory }}"
-  
+  when: "'sudo' in ansible_facts.packages"
+
 - name: Copy pg_hba.conf config file
-  template:
+  ansible.builtin.template:
     src: pg_hba.conf.j2
     dest: /etc/postgresql/14/main/pg_hba.conf
     mode: '644'

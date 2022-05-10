@@ -1,6 +1,6 @@
 ---
 - name: Update repo cache and install a few prerequisite packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
@@ -9,12 +9,12 @@
     - gnupg2
 
 - name: Add official PostgreSQL Server package authentication key
-  apt_key:
+  ansible.builtin.apt_key:
     data: "{{ lookup('file', 'postgresql_pubkey.asc') }}"
     state: present
 
 - name: Add the PostgreSQL Server repository to APT sources
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ item }}"
     state: present
     filename: postgresql
@@ -23,13 +23,15 @@
     - "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
 
 - name: Install/Update PostgreSQL Server
-  apt:
-    update_cache: true
-    name: postgresql-14
+  ansible.builtin.apt:
+    name: "{{ item }}"
     state: present
+    update_cache: true
+  with-items:
+    - postgresql-14
 
 - name: Start and enable PostgreSQL Server
-  service:
+  ansible.builtin.service:
     name: postgresql
     state: started
     enabled: true
