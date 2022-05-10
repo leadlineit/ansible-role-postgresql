@@ -20,6 +20,7 @@
     manager: auto
 
 - name: Set postgres password with sudo packages (skip if sudo isn't installed)
+  when: "'sudo' in ansible_facts.packages"
   no_log: true
   become: true
   become_method: sudo
@@ -28,7 +29,6 @@
     db: postgres
     name: postgres
     password: "{{ pgsql_root_password | mandatory }}"
-  when: "'sudo' in ansible_facts.packages"
 
 - name: Copy pg_hba.conf config file
   ansible.builtin.template:

@@ -27,7 +27,7 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  with-items:
+  with_items:
     - postgresql-14
 
 - name: Start and enable PostgreSQL Server
