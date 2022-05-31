@@ -5,6 +5,7 @@
     state: present
     update_cache: true
   with_items:
+    - acl
     - apt-transport-https
     - gnupg2
 
