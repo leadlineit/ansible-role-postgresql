@@ -37,3 +37,11 @@
     mode: '644'
   notify:
     - restart postgresql service
+
+- name: Copy pg_ident.conf config file
+  ansible.builtin.template:
+    src: pg_ident.conf.j2
+    dest: /etc/postgresql/14/main/pg_ident.conf
+    mode: '644'
+  notify:
+    - restart postgresql service

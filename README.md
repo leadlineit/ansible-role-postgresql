@@ -22,6 +22,9 @@ pgsql_data_dir: /path/to/psql/data
 pgsql_listen_addresses: 10.0.0.1
 pgsql_listen_port: 7654
 pgsql_auth_method: md5
+pgsql_map_name: rootmap
+pgsql_map_sysuser: root
+pgsql_map_pguser: postgres
 ```
 
 Variables 'psql_data_dir', 'psql_listen_addresses', 'psql_listen_port' and 'pgsql_auth_method' are optional.
@@ -33,6 +36,9 @@ pgsql_data_dir: /var/lib/postgresql/14/main
 pgsql_listen_addresses: localhost
 pgsql_listen_port: 5432
 pgsql_auth_method: scram-sha-256
+pgsql_map_name: rootmap
+pgsql_map_sysuser: root
+pgsql_map_pguser: postgres
 ```
 
 Dependencies
