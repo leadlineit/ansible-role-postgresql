@@ -27,7 +27,7 @@ pgsql_map_sysuser: root
 pgsql_map_pguser: postgres
 ```
 
-Variables 'psql_data_dir', 'psql_listen_addresses', 'psql_listen_port' and 'pgsql_auth_method' are optional.
+All of the above variables except the 'pgsql_root_password' are optional.
 Default values for optional variables:
 
 ```yaml

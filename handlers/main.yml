@@ -1,10 +1,5 @@
 ---
-- name: enable postgresql service
-  ansible.builtin.service:
-    name: postgresql
-    enabled: true
-
-- name: restart postgresql service
+- name: Restart postgresql service
   ansible.builtin.service:
     name: postgresql
     state: restarted
